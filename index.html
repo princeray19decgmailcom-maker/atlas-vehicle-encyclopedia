@@ -4,299 +4,374 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ATLAS | Global Vehicle Encyclopedia</title>
+<title>ATLAS — The Machine Archive</title>
+<meta name="theme-color" content="#eae9e4">
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+:root{
+ --paper:#eae9e4;--ink:#171914;--muted:#74776d;
+ --line:#c7c8bd;--lime:#d5fa56;--white:#fffef8;
+}
 *{box-sizing:border-box}
-body{margin:0;background:#0a1020;color:#edf3ff;font-family:Arial,sans-serif}
-header{padding:25px 5%;background:#111c32;border-bottom:1px solid #293954}
-h1{margin:0;color:#65d9ff;letter-spacing:4px}
-header p{color:#aebbd2}
-main{max-width:1400px;margin:auto;padding:22px}
-.controls{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px}
-input,select{background:#15233b;color:white;border:1px solid #344967;padding:12px;border-radius:8px;flex:1;min-width:170px}
-#count{color:#9eb1cf;margin:12px 0}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
-.card{background:#111c30;border:1px solid #283b58;border-radius:12px;overflow:hidden}
-.photo{height:165px;background:#1b2b43;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.photo img{width:100%;height:100%;object-fit:cover}
-.fallback{font-size:58px}
-.info{padding:15px}
-.info h3{margin:0 0 10px;font-size:17px}
-.meta{font-size:12px;color:#a9bad5;margin-bottom:12px}
-button{background:#087ca5;color:white;border:0;border-radius:7px;padding:10px 13px;cursor:pointer}
-button:hover{background:#0a9ccc}
-#modal{display:none;position:fixed;inset:0;background:#000c;z-index:5;overflow:auto;padding:20px}
-.panel{max-width:650px;margin:5vh auto;background:#111c30;border:1px solid #344967;border-radius:12px;padding:20px}
-.panel img{width:100%;max-height:330px;object-fit:contain;background:#1b2b43}
-.close{float:right}
-footer{text-align:center;padding:25px;color:#8394b1}
+body{margin:0;background:var(--paper);color:var(--ink);
+ font-family:"DM Sans",Arial,sans-serif}
+a{color:inherit}
+button,input,select{font:inherit}
+.topbar{height:64px;padding:0 5%;display:flex;align-items:center;
+ justify-content:space-between;border-bottom:1px solid var(--line)}
+.brand{font-family:"Barlow Condensed",sans-serif;font-size:30px;
+ font-weight:900;letter-spacing:2px}
+.brand span{background:var(--lime);padding:3px 6px}
+.topnote{font-size:10px;letter-spacing:2px;text-transform:uppercase}
+.hero{padding:60px 5% 38px}
+.eyebrow{font-size:10px;letter-spacing:3px;font-weight:700;
+ text-transform:uppercase;color:var(--muted)}
+.hero h1{font-family:"Barlow Condensed",Impact,sans-serif;
+ text-transform:uppercase;font-size:clamp(66px,13vw,170px);
+ letter-spacing:-4px;line-height:.78;margin:24px 0 30px;font-weight:900}
+.hero h1 span{color:#85887b}
+.herofoot{display:flex;justify-content:space-between;align-items:end;
+ gap:20px;border-bottom:1px solid var(--ink);padding-bottom:22px}
+.herofoot p{max-width:400px;font-size:13px;line-height:1.8;color:#55594f}
+.stamp{font-family:"Barlow Condensed";font-size:42px;font-weight:800}
+.stamp small{display:block;font:10px "DM Sans";letter-spacing:2px}
+.marquee{background:var(--lime);padding:12px 5%;
+ font-family:"Barlow Condensed";font-weight:800;letter-spacing:2px;
+ font-size:14px;overflow:hidden}
+main{padding:36px 5% 80px}
+.toolbar{display:grid;grid-template-columns:1fr 180px 180px;gap:10px;
+ margin-bottom:28px}
+input,select{background:transparent;border:1px solid var(--line);
+ border-radius:0;padding:13px;color:var(--ink);min-width:0;outline:none}
+input:focus,select:focus{border-color:var(--ink)}
+.sectionhead{display:flex;justify-content:space-between;align-items:center;
+ gap:15px;margin-bottom:20px}
+.sectionhead h2{font-family:"Barlow Condensed";font-size:36px;
+ text-transform:uppercase;margin:0}
+#count{font-size:11px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px 16px}
+.card{min-width:0;cursor:pointer}
+.picture{height:230px;background:#d7d8d0;position:relative;overflow:hidden}
+.picture img{width:100%;height:100%;object-fit:cover;display:block;
+ transition:transform .5s}
+.card:hover .picture img{transform:scale(1.045)}
+.number{position:absolute;top:12px;left:12px;background:var(--lime);
+ padding:6px 8px;font-size:10px;font-weight:700}
+.tag{position:absolute;right:12px;bottom:12px;background:#171914;
+ color:white;padding:7px 9px;font-size:9px;letter-spacing:1px;
+ text-transform:uppercase}
+.cardtext{padding:14px 0 0;border-top:1px solid var(--ink);margin-top:8px}
+.cardtitle{display:flex;align-items:start;justify-content:space-between;gap:10px}
+.card h3{font-family:"Barlow Condensed";font-size:25px;
+ text-transform:uppercase;margin:0;line-height:1.1}
+.arrow{font-size:20px;transition:transform .2s}
+.card:hover .arrow{transform:translate(3px,-3px)}
+.sub{font-size:10px;color:var(--muted);margin-top:9px;
+ letter-spacing:1px;text-transform:uppercase}
+#status{padding:45px 0;color:var(--muted);font-size:13px}
+#modal{display:none;position:fixed;inset:0;background:#171914eF;
+ z-index:5;overflow:auto;padding:5vh 16px}
+.dialog{background:var(--paper);max-width:900px;margin:auto;padding:25px}
+.dialogtop{display:flex;justify-content:space-between;align-items:center}
+.close{border:0;background:var(--lime);padding:10px 15px;cursor:pointer}
+.dialog h2{font:800 clamp(38px,7vw,76px)/.95 "Barlow Condensed";
+ text-transform:uppercase;margin:28px 0}
+#detailimg{width:100%;max-height:470px;object-fit:contain;background:#d7d8d0}
+.detailmeta{display:flex;gap:30px;flex-wrap:wrap;padding:22px 0;
+ border-bottom:1px solid var(--line)}
+.detailmeta span{font-size:12px;color:var(--muted)}
+.detailmeta b{display:block;color:var(--ink);margin-top:6px}
+footer{padding:25px 5%;border-top:1px solid var(--line);
+ display:flex;justify-content:space-between;gap:20px;font-size:10px;
+ letter-spacing:1px;text-transform:uppercase}
+@media(max-width:800px){
+ .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .toolbar{grid-template-columns:1fr 1fr}
+ .toolbar input{grid-column:1/-1}
+ .picture{height:200px}.hero h1{letter-spacing:-2px}
+}
+@media(max-width:480px){
+ .grid{grid-template-columns:1fr 1fr;gap:20px 10px}
+ .picture{height:150px}.card h3{font-size:21px}
+ .topnote{font-size:8px}.hero{padding-top:45px}
+ .herofoot{align-items:start;flex-direction:column}
+}
 </style>
 </head>
 <body>
-<header>
-<h1>ATLAS</h1>
-<p>GLOBAL VEHICLE ENCYCLOPEDIA · AIR · SEA · LAND · SPACE</p>
+<header class="topbar">
+ <div class="brand">ATLAS<span>.</span></div>
+ <div class="topnote">Independent Machine Archive / Vol. 001</div>
 </header>
+
+<section class="hero">
+ <div class="eyebrow">A catalogue of human engineering · Est. 2026</div>
+ <h1>Machines<br>that <span>move</span><br>the world.</h1>
+ <div class="herofoot">
+  <p>An editorial archive of remarkable machines—from aviation and ocean engineering to performance cars, railways and space exploration.</p>
+  <div class="stamp"><span id="total">0</span><small>CATALOGUED MACHINES</small></div>
+ </div>
+</section>
+
+<div class="marquee">AVIATION ✳ AUTOMOTIVE ✳ MARITIME ✳ RAIL ✳ ENGINEERING ✳ SPACE ✳</div>
+
 <main>
-<div class="controls">
-<input id="search" placeholder="Search vehicles..." aria-label="Search vehicles">
-<select id="category" aria-label="Filter by category"><option value="">All categories</option></select>
-<select id="country" aria-label="Filter by country"><option value="">All countries</option></select>
-</div>
-<div id="count"></div>
-<div id="grid" class="grid"></div>
+ <div class="toolbar">
+  <input id="search" placeholder="Search a machine, manufacturer or country..." aria-label="Search">
+  <select id="category" aria-label="Category"><option value="">All divisions</option></select>
+  <select id="country" aria-label="Country"><option value="">All origins</option></select>
+ </div>
+ <div class="sectionhead">
+  <h2>Selected machines</h2><div id="count">Loading archive...</div>
+ </div>
+ <div class="grid" id="grid"></div>
+ <div id="status">Searching for photographs. Machines without a usable photo will be excluded.</div>
 </main>
+
 <div id="modal" role="dialog" aria-modal="true">
-<div class="panel">
-<button class="close" onclick="closeProfile()">Close ✕</button>
-<div id="details"></div>
+ <div class="dialog">
+  <div class="dialogtop"><div class="brand">ATLAS<span>.</span></div>
+   <button class="close" id="close">CLOSE ×</button></div>
+  <div class="eyebrow" style="margin-top:30px">Machine profile / Archive entry</div>
+  <h2 id="detailname"></h2>
+  <img id="detailimg" alt="">
+  <div class="detailmeta">
+   <div><span>DIVISION</span><b id="detailcat"></b></div>
+   <div><span>COUNTRY / ORIGIN</span><b id="detailcountry"></b></div>
+  </div>
+ </div>
 </div>
-</div>
-<footer>ATLAS · Global Vehicle Encyclopedia</footer>
+
+<footer><span>ATLAS © 2026</span><span>Built for the curious.</span></footer>
+
 <script>
 "use strict";
 
-/* 25 entries in each of 8 categories = 200 profiles.
-   Photos are searched online; Commons search results should be checked. */
-const groups={
-"Aircraft":[
-"Airbus A380","Boeing 747","Boeing 787 Dreamliner","Airbus A350",
-"Airbus A320","Boeing 737","Concorde","Lockheed SR-71 Blackbird",
-"F-22 Raptor","F-35 Lightning II","Sukhoi Su-57","Dassault Rafale",
-"Eurofighter Typhoon","F-16 Fighting Falcon","F-15 Eagle",
-"MiG-29","Sukhoi Su-30MKI","B-2 Spirit","B-52 Stratofortress",
-"C-130 Hercules","C-17 Globemaster III","Antonov An-225",
-"Embraer E195","Boeing AH-64 Apache","Mil Mi-26"
-],
-"Ships":[
-"USS Gerald R. Ford","USS Nimitz","INS Vikrant aircraft carrier","INS Arihant",
-"INS Visakhapatnam","HMS Queen Elizabeth aircraft carrier","Admiral Kuznetsov",
-"Yamato battleship","USS Missouri battleship","Arleigh Burke-class destroyer",
-"Type 055 destroyer","Kolkata-class destroyer","Virginia-class submarine",
-"Astute-class submarine","Typhoon-class submarine","Kilo-class submarine",
-"Queen Mary 2","Titanic ship","Ever Given container ship","Emma Maersk",
-"Freedom of the Seas","Zumwalt-class destroyer","INS Chennai warship",
-"INS Kolkata warship","USS Constitution"
-],
-"Cars":[
-"Toyota Supra","Nissan GT-R","Porsche 911","Ferrari F40","Ferrari SF90",
-"Lamborghini Aventador","Lamborghini Revuelto","Bugatti Chiron",
-"Bugatti Tourbillon","McLaren P1","McLaren 720S","Koenigsegg Jesko",
-"Koenigsegg Agera","Pagani Huayra","Aston Martin Valkyrie",
-"Mercedes-Benz S-Class","BMW M5","Audi R8","Ford Mustang",
-"Chevrolet Corvette","Dodge Challenger","Tesla Model S","Tata Nexon",
-"Mahindra Thar","Maruti Suzuki Swift"
-],
-"Trains":[
-"Shinkansen N700S","TGV Duplex","ICE 3 train","Eurostar e320",
-"Shanghai Maglev","Vande Bharat Express","Gatimaan Express",
-"Rajdhani Express","Duronto Express","Indian Railways WAP-7",
-"Indian Railways WAG-9","Indian Railways WDM-3A","Flying Scotsman locomotive",
-"Union Pacific Big Boy","Mallard locomotive","Orient Express train",
-"California Zephyr","Amtrak Acela","JR East E5 Series",
-"CR400 Fuxing train","Talgo Avril","Bombardier TRAXX",
-"Stadler FLIRT","Delhi Metro train","Kolkata Metro train"
-],
-"Construction":[
-"Caterpillar 797F","Caterpillar D11 bulldozer","Komatsu D575A",
-"Komatsu 980E mining truck","Liebherr T 282B","BelAZ 75710",
-"Hitachi EX8000 excavator","Komatsu PC8000 excavator",
-"Caterpillar 320 excavator","JCB 3DX backhoe loader",
-"JCB Fastrac tractor","Volvo A60H articulated hauler",
-"Volvo EC950F excavator","Liebherr LTM 11200 crane",
-"Terex AC 1000 crane","SANY SY500H excavator",
-"XCMG XE7000 excavator","John Deere 9RX tractor",
-"Case IH Steiger tractor","New Holland T7 tractor",
-"Bomag BW 219 roller","Caterpillar 140 grader",
-"Komatsu WA1200 loader","Putzmeister concrete pump",
-"Sandvik underground mining loader"
-],
-"Spacecraft":[
-"Apollo Lunar Module","Space Shuttle Discovery","Space Shuttle Atlantis",
-"SpaceX Dragon spacecraft","SpaceX Starship","Falcon 9 rocket",
-"Falcon Heavy rocket","Saturn V rocket","SLS rocket",
-"NASA Orion spacecraft","Soyuz spacecraft","Shenzhou spacecraft",
-"Blue Origin New Shepard","Blue Origin New Glenn",
-"Ariane 5 rocket","Ariane 6 rocket","ISRO LVM3 rocket",
-"ISRO PSLV rocket","GSLV Mk III rocket","Hubble Space Telescope",
-"James Webb Space Telescope","Voyager 1 spacecraft",
-"Perseverance rover","Curiosity rover","Chandrayaan-3 lander"
-],
-"Robots":[
-"Boston Dynamics Atlas robot","Boston Dynamics Spot robot",
-"NASA Valkyrie robot","ASIMO robot","Unitree Go2 robot",
-"Unitree H1 humanoid robot","Tesla Optimus robot","Digit humanoid robot",
-"Ameca humanoid robot","Pepper robot","NAO humanoid robot",
-"Robonaut 2","NASA Sojourner rover","NASA Spirit rover",
-"NASA Opportunity rover","NASA Zhurong rover","Lunar Roving Vehicle",
-"iRobot PackBot","QinetiQ TALON robot","ANYmal quadruped robot",
-"Agility Robotics Digit","KUKA industrial robot","ABB IRB 6700 robot",
-"FANUC industrial robot","Universal Robots UR10"
-],
-"Military Vehicles":[
-"M1 Abrams tank","Leopard 2 tank","Challenger 2 tank","T-90 Bhishma tank",
-"Arjun Mk1A tank","T-14 Armata tank","Merkava Mk4 tank",
-"K2 Black Panther tank","Type 99 tank","M2 Bradley fighting vehicle",
-"CV90 infantry fighting vehicle","BMP-3 infantry fighting vehicle",
-"Stryker armoured vehicle","Boxer armoured vehicle","Patria AMV",
-"Rafale fighter aircraft","F-16 Fighting Falcon","F-22 Raptor",
-"F-35 Lightning II","Sukhoi Su-30MKI","C-17 Globemaster III",
-"CH-47 Chinook","AH-64 Apache","S-400 air defence system",
-"NASAMS air defence system"
-]
-};
+const data=[
+["Airbus A380","Aircraft","Europe"],
+["Boeing 747","Aircraft","United States"],
+["Boeing 787 Dreamliner","Aircraft","United States"],
+["Concorde","Aircraft","United Kingdom / France"],
+["Lockheed SR-71 Blackbird","Aircraft","United States"],
+["F-22 Raptor","Aircraft","United States"],
+["F-35 Lightning II","Aircraft","United States"],
+["Dassault Rafale","Aircraft","France"],
+["Eurofighter Typhoon","Aircraft","Europe"],
+["Sukhoi Su-30MKI","Aircraft","India / Russia"],
+["Sukhoi Su-57","Aircraft","Russia"],
+["C-17 Globemaster III","Aircraft","United States"],
+["C-130 Hercules","Aircraft","United States"],
+["Antonov An-225","Aircraft","Ukraine"],
+["Embraer E195","Aircraft","Brazil"],
+["Airbus A350","Aircraft","Europe"],
+["Boeing 737","Aircraft","United States"],
+["MiG-29","Aircraft","Russia"],
+["B-2 Spirit","Aircraft","United States"],
+["B-52 Stratofortress","Aircraft","United States"],
+["INS Vikrant","Ships","India"],
+["USS Gerald R. Ford","Ships","United States"],
+["Queen Mary 2","Ships","United Kingdom"],
+["Ever Given","Ships","Japan / Taiwan"],
+["Yamato battleship","Ships","Japan"],
+["USS Missouri","Ships","United States"],
+["Arleigh Burke-class destroyer","Ships","United States"],
+["Type 055 destroyer","Ships","China"],
+["Virginia-class submarine","Ships","United States"],
+["Astute-class submarine","Ships","United Kingdom"],
+["INS Arihant","Ships","India"],
+["HMS Queen Elizabeth","Ships","United Kingdom"],
+["Titanic","Ships","United Kingdom"],
+["Freedom of the Seas","Ships","International"],
+["INS Visakhapatnam","Ships","India"],
+["Toyota Supra","Cars","Japan"],
+["Nissan GT-R","Cars","Japan"],
+["Porsche 911","Cars","Germany"],
+["Ferrari F40","Cars","Italy"],
+["Ferrari SF90","Cars","Italy"],
+["Lamborghini Aventador","Cars","Italy"],
+["Bugatti Chiron","Cars","France"],
+["McLaren P1","Cars","United Kingdom"],
+["Koenigsegg Jesko","Cars","Sweden"],
+["Pagani Huayra","Cars","Italy"],
+["Aston Martin Valkyrie","Cars","United Kingdom"],
+["Mercedes-Benz S-Class","Cars","Germany"],
+["BMW M5","Cars","Germany"],
+["Audi R8","Cars","Germany"],
+["Ford Mustang","Cars","United States"],
+["Chevrolet Corvette","Cars","United States"],
+["Tesla Model S","Cars","United States"],
+["Tata Nexon","Cars","India"],
+["Mahindra Thar","Cars","India"],
+["Maruti Suzuki Swift","Cars","India"],
+["Shinkansen N700S","Trains","Japan"],
+["TGV Duplex","Trains","France"],
+["ICE 3","Trains","Germany"],
+["Eurostar e320","Trains","Europe"],
+["Shanghai Maglev","Trains","China"],
+["Vande Bharat Express","Trains","India"],
+["Indian Railways WAP-7","Trains","India"],
+["Flying Scotsman","Trains","United Kingdom"],
+["Union Pacific Big Boy","Trains","United States"],
+["Amtrak Acela","Trains","United States"],
+["CR400 Fuxing","Trains","China"],
+["Talgo Avril","Trains","Spain"],
+["Delhi Metro train","Trains","India"],
+["Caterpillar 797F","Construction","United States"],
+["Caterpillar D11","Construction","United States"],
+["Komatsu D575A","Construction","Japan"],
+["BelAZ 75710","Construction","Belarus"],
+["Liebherr T 282B","Construction","Switzerland / Germany"],
+["Hitachi EX8000","Construction","Japan"],
+["Komatsu PC8000","Construction","Japan"],
+["JCB 3DX","Construction","United Kingdom"],
+["Volvo A60H","Construction","Sweden"],
+["Liebherr LTM 11200","Construction","Germany"],
+["John Deere 9RX","Construction","United States"],
+["Bomag BW 219","Construction","Germany"],
+["Caterpillar 140 grader","Construction","United States"],
+["SANY SY500H","Construction","China"],
+["XCMG XE7000","Construction","China"],
+["Apollo Lunar Module","Space","United States"],
+["Space Shuttle Discovery","Space","United States"],
+["Space Shuttle Atlantis","Space","United States"],
+["SpaceX Dragon","Space","United States"],
+["SpaceX Starship","Space","United States"],
+["Falcon 9","Space","United States"],
+["Falcon Heavy","Space","United States"],
+["Saturn V","Space","United States"],
+["NASA Orion spacecraft","Space","United States"],
+["Soyuz spacecraft","Space","Russia"],
+["Shenzhou spacecraft","Space","China"],
+["Ariane 5","Space","Europe"],
+["Ariane 6","Space","Europe"],
+["ISRO LVM3","Space","India"],
+["ISRO PSLV","Space","India"],
+["Hubble Space Telescope","Space","United States"],
+["James Webb Space Telescope","Space","International"],
+["Voyager 1","Space","United States"],
+["Perseverance rover","Space","United States"],
+["Chandrayaan-3 lander","Space","India"],
+["Boston Dynamics Atlas","Robotics","United States"],
+["Boston Dynamics Spot","Robotics","United States"],
+["Unitree Go2","Robotics","China"],
+["Unitree H1","Robotics","China"],
+["Tesla Optimus","Robotics","United States"],
+["Ameca humanoid robot","Robotics","United Kingdom"],
+["Pepper robot","Robotics","Japan / France"],
+["NAO humanoid robot","Robotics","France"],
+["Robonaut 2","Robotics","United States"],
+["NASA Sojourner rover","Robotics","United States"],
+["NASA Spirit rover","Robotics","United States"],
+["NASA Opportunity rover","Robotics","United States"],
+["NASA Zhurong rover","Robotics","China"],
+["KUKA industrial robot","Robotics","Germany"],
+["ABB IRB 6700","Robotics","Switzerland"],
+["FANUC industrial robot","Robotics","Japan"],
+["Universal Robots UR10","Robotics","Denmark"],
+["M1 Abrams","Military Vehicles","United States"],
+["Leopard 2","Military Vehicles","Germany"],
+["Challenger 2","Military Vehicles","United Kingdom"],
+["T-90 Bhishma","Military Vehicles","India"],
+["Arjun Mk1A","Military Vehicles","India"],
+["T-14 Armata","Military Vehicles","Russia"],
+["Merkava Mk4","Military Vehicles","Israel"],
+["K2 Black Panther","Military Vehicles","South Korea"],
+["Type 99 tank","Military Vehicles","China"],
+["M2 Bradley","Military Vehicles","United States"],
+["CV90","Military Vehicles","Sweden"],
+["BMP-3","Military Vehicles","Russia"],
+["Stryker armoured vehicle","Military Vehicles","United States"],
+["Boxer armoured vehicle","Military Vehicles","Germany / Netherlands"],
+["Patria AMV","Military Vehicles","Finland"],
+["CH-47 Chinook","Military Vehicles","United States"],
+["AH-64 Apache","Military Vehicles","United States"],
+["S-400 air defence system","Military Vehicles","Russia"],
+["NASAMS","Military Vehicles","Norway / United States"],
+["INS Chennai","Military Vehicles","India"]
+];
 
-const countries={
-"Airbus":"France / Europe","Boeing":"United States",
-"Lockheed":"United States","Sukhoi":"Russia","Dassault":"France",
-"Eurofighter":"Europe","MiG":"Russia","Antonov":"Ukraine",
-"Embraer":"Brazil","INS":"India","Indian Railways":"India",
-"Vande Bharat":"India","Gatimaan":"India","Rajdhani":"India",
-"Duronto":"India","Delhi Metro":"India","Kolkata Metro":"India",
-"Tata":"India","Mahindra":"India","Maruti":"India","ISRO":"India",
-"Chandrayaan":"India","Shinkansen":"Japan","JR East":"Japan",
-"Komatsu":"Japan","Hitachi":"Japan","Toyota":"Japan","Nissan":"Japan",
-"Ferrari":"Italy","Lamborghini":"Italy","Bugatti":"France",
-"Koenigsegg":"Sweden","Pagani":"Italy","Porsche":"Germany",
-"BMW":"Germany","Audi":"Germany","Mercedes-Benz":"Germany",
-"Volvo":"Sweden","Saab":"Sweden","SpaceX":"United States",
-"NASA":"United States","Blue Origin":"United States",
-"Boston Dynamics":"United States","Unitree":"China",
-"Tesla":"United States","Caterpillar":"United States",
-"JCB":"United Kingdom","Liebherr":"Switzerland / Germany",
-"BelAZ":"Belarus","SANY":"China","XCMG":"China",
-"John Deere":"United States","Case IH":"United States",
-"New Holland":"Italy / United States","KUKA":"Germany",
-"ABB":"Switzerland","FANUC":"Japan","Universal Robots":"Denmark",
-"Leopard":"Germany","M1 Abrams":"United States",
-"Challenger":"United Kingdom","T-90":"Russia","Arjun":"India",
-"Rafale":"France","F-16":"United States","F-22":"United States",
-"F-35":"United States","CH-47":"United States","AH-64":"United States"
-};
+const $=id=>document.getElementById(id);
+const grid=$("grid"),search=$("search"),category=$("category"),country=$("country");
+const imageCache=new Map();
+let visible=[];
 
-function countryOf(name){
- for(const [prefix,country] of Object.entries(countries))
-  if(name.startsWith(prefix)) return country;
- if(/USS |Boeing|Ford Mustang|Chevrolet|Dodge|Amtrak|Space Shuttle|Falcon |Apollo |Orion |Hubble|James Webb|Voyager|Perseverance|Curiosity|M1 Abrams|Stryker|Bradley|NASA /.test(name)) return "United States";
- if(/TGV|Ariane|Dassault|Rafale|Airbus|Bugatti/.test(name)) return "France / Europe";
- if(/Sukhoi|MiG|T-90|Armata|Kuznetsov/.test(name)) return "Russia";
- if(/Shinkansen|Toyota|Nissan|Komatsu|Hitachi|FANUC|ASIMO/.test(name)) return "Japan";
- if(/INS |Arjun|Tata|Mahindra|Maruti|ISRO|Chandrayaan|Vande Bharat/.test(name)) return "India";
- if(/China|Fuxing|Zhurong|Unitree|SANY|XCMG/.test(name)) return "China";
- return "International";
-}
-
-const catalogue=[];
-for(const [category,names] of Object.entries(groups)){
- for(const name of names){
-  catalogue.push({name,category,country:countryOf(name)});
- }
-}
-if(catalogue.length!==200) console.warn("Catalogue entries:",catalogue.length);
-
-const grid=document.getElementById("grid");
-const search=document.getElementById("search");
-const cat=document.getElementById("category");
-const country=document.getElementById("country");
-const count=document.getElementById("count");
-const cache=new Map();
-
-[...new Set(catalogue.map(x=>x.category))].sort().forEach(x=>cat.add(new Option(x,x)));
-[...new Set(catalogue.map(x=>x.country))].sort().forEach(x=>country.add(new Option(x,x)));
-
-function escapeHTML(s){
- return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-}
-function fallbackSVG(name,category){
- const label=(name+"").replace(/[<>&"]/g,"").slice(0,34);
- const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="600" height="330" viewBox="0 0 600 330">
- <rect width="600" height="330" fill="#172944"/>
- <path d="M40 245H560" stroke="#3c587c" stroke-width="3"/>
- <g fill="#5dd7ff" opacity=".85">
- <path d="M125 178h350l-48 34H173z"/>
- <circle cx="205" cy="226" r="20"/><circle cx="395" cy="226" r="20"/>
- </g>
- <text x="300" y="65" fill="#eaf4ff" font-size="23" text-anchor="middle">${escapeHTML(category)}</text>
- <text x="300" y="290" fill="#eaf4ff" font-size="19" text-anchor="middle">${escapeHTML(label)}</text>
- </svg>`;
- return "data:image/svg+xml;charset=UTF-8,"+encodeURIComponent(svg);
-}
-async function vehicleImage(item){
- if(cache.has(item.name)) return cache.get(item.name);
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function norm(s){return s.toLowerCase().replace(/\.[^.]+$/,"").replace(/[^a-z0-9]+/g," ").trim();}
+function photoFor(item){
+ if(imageCache.has(item[0]))return imageCache.get(item[0]);
  const promise=(async()=>{
   try{
-   const query=encodeURIComponent(item.name);
-   const url=`https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${query}&gsrnamespace=6&gsrlimit=10&prop=imageinfo&iiprop=url&iiurlwidth=600&format=json&origin=*`;
-   const response=await fetch(url);
-   if(!response.ok) throw new Error("Image search failed");
-   const data=await response.json();
-   const pages=Object.values(data.query?.pages||{});
-   const norm=s=>s.toLowerCase().replace(/\.[^.]+$/,"").replace(/[^a-z0-9]+/g," ").trim();
-   const words=norm(item.name).split(" ").filter(w=>w.length>2);
-   const ranked=pages.map(p=>{
+   const q=encodeURIComponent(item[0]);
+   const url=`https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${q}&gsrnamespace=6&gsrlimit=12&prop=imageinfo&iiprop=url&iiurlwidth=900&format=json&origin=*`;
+   const r=await fetch(url);
+   if(!r.ok)throw Error("Network error");
+   const j=await r.json();
+   const words=norm(item[0]).split(" ").filter(w=>w.length>2);
+   const candidates=Object.values(j.query?.pages||{}).map(p=>{
     const title=norm(p.title||"");
-    const score=words.reduce((n,w)=>n+(title.includes(w)?1:0),0);
-    return {score,url:p.imageinfo?.[0]?.thumburl||p.imageinfo?.[0]?.url};
-   }).filter(p=>p.url&&p.score>=Math.max(2,Math.ceil(words.length*.5)));
-   ranked.sort((a,b)=>b.score-a.score);
-   return ranked[0]?.url||fallbackSVG(item.name,item.category);
-  }catch(e){
-   return fallbackSVG(item.name,item.category);
-  }
+    const matches=words.filter(w=>title.includes(w)).length;
+    return {url:p.imageinfo?.[0]?.thumburl||p.imageinfo?.[0]?.url,matches,title};
+   }).filter(x=>x.url&&x.matches>=Math.min(2,words.length));
+   candidates.sort((a,b)=>b.matches-a.matches);
+   return candidates[0]?.url||null;
+  }catch(e){return null;}
  })();
- cache.set(item.name,promise);
+ imageCache.set(item[0],promise);
  return promise;
 }
-function loadImage(img,item){
- vehicleImage(item).then(url=>{
-  img.src=url;
-  img.alt=item.name;
- });
+function setupFilters(){
+ [...new Set(data.map(x=>x[1]))].sort().forEach(v=>category.add(new Option(v,v)));
+ [...new Set(data.map(x=>x[2]))].sort().forEach(v=>country.add(new Option(v,v)));
 }
-function showProfile(item){
- const modal=document.getElementById("modal");
- document.getElementById("details").innerHTML=
- `<h2>${escapeHTML(item.name)}</h2>
- <p><b>Category:</b> ${escapeHTML(item.category)}</p>
- <p><b>Country:</b> ${escapeHTML(item.country)}</p>
- <img id="profileImage" alt="${escapeHTML(item.name)}" src="${fallbackSVG(item.name,item.category)}">
- <p>Image results are retrieved from Wikimedia Commons when available. Check the source image to confirm the exact model.</p>`;
- modal.style.display="block";
- const img=document.getElementById("profileImage");
- loadImage(img,item);
-}
-function closeProfile(){document.getElementById("modal").style.display="none"}
-document.getElementById("modal").addEventListener("click",e=>{
- if(e.target.id==="modal") closeProfile();
-});
 function render(){
  const q=search.value.toLowerCase().trim();
- const items=catalogue.filter(x=>
-  (!q||(x.name+" "+x.category+" "+x.country).toLowerCase().includes(q))&&
-  (!cat.value||x.category===cat.value)&&
-  (!country.value||x.country===country.value)
- );
- count.textContent=`Showing ${items.length} of ${catalogue.length} vehicles`;
- grid.innerHTML=items.map((x,i)=>`
- <article class="card">
-  <div class="photo"><img loading="lazy" data-item="${catalogue.indexOf(x)}" src="${fallbackSVG(x.name,x.category)}" alt="${escapeHTML(x.name)}"></div>
-  <div class="info">
-   <h3>${escapeHTML(x.name)}</h3>
-   <div class="meta">${escapeHTML(x.category)} · ${escapeHTML(x.country)}</div>
-   <button data-profile="${catalogue.indexOf(x)}">View profile</button>
-  </div>
- </article>`).join("");
- grid.querySelectorAll("img[data-item]").forEach(img=>{
-  loadImage(img,catalogue[Number(img.dataset.item)]);
- });
- grid.querySelectorAll("button[data-profile]").forEach(btn=>{
-  btn.addEventListener("click",()=>showProfile(catalogue[Number(btn.dataset.profile)]));
+ const matches=data.filter(x=>
+  (!q||x.join(" ").toLowerCase().includes(q))&&
+  (!category.value||x[1]===category.value)&&
+  (!country.value||x[2]===country.value));
+ $("count").textContent=`${matches.length} archive entries · photographs loading`;
+ grid.innerHTML="";
+ visible=[];
+ if(!matches.length){$("status").textContent="No machines match your search.";return;}
+ $("status").textContent="Loading verified-name photo candidates. Entries without an image will be hidden.";
+ matches.forEach((item,index)=>{
+  const card=document.createElement("article");
+  card.className="card";
+  card.style.display="none";
+  card.innerHTML=`<div class="picture"><img alt="${esc(item[0])}" loading="lazy"><span class="number">${String(index+1).padStart(3,"0")}</span><span class="tag">${esc(item[1])}</span></div><div class="cardtext"><div class="cardtitle"><h3>${esc(item[0])}</h3><span class="arrow">↗</span></div><div class="sub">${esc(item[2])}</div></div>`;
+  grid.appendChild(card);
+  const img=card.querySelector("img");
+  photoFor(item).then(url=>{
+   if(!url){card.remove();return;}
+   img.onload=()=>{
+    card.style.display="";
+    visible.push(item);
+    $("count").textContent=`${grid.children.length} machines displayed`;
+   };
+   img.onerror=()=>card.remove();
+   img.src=url;
+  });
+  card.addEventListener("click",()=>{
+   if(!img.src||!img.complete||!img.naturalWidth)return;
+   $("detailname").textContent=item[0];
+   $("detailcat").textContent=item[1];
+   $("detailcountry").textContent=item[2];
+   $("detailimg").src=img.src;
+   $("detailimg").alt=item[0];
+   $("modal").style.display="block";
+  });
  });
 }
+$("close").addEventListener("click",()=>$("modal").style.display="none");
+$("modal").addEventListener("click",e=>{if(e.target===$("modal"))$("modal").style.display="none";});
 search.addEventListener("input",render);
-cat.addEventListener("change",render);
+category.addEventListener("change",render);
 country.addEventListener("change",render);
+setupFilters();
+$("total").textContent=data.length;
 render();
 </script>
 </body>
 </html>
+
