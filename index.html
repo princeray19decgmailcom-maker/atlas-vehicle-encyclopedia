@@ -11,15 +11,17 @@
 :root{
  --paper:#eae9e4;--ink:#171914;--muted:#74776d;
  --line:#c7c8bd;--lime:#d5fa56;--white:#fffef8;
+ --transition:all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:"DM Sans",Arial,sans-serif}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"DM Sans",Arial,sans-serif;scroll-behavior:smooth}
 a{color:inherit}
 button,input,select{font:inherit}
 
-.topbar{height:64px;padding:0 5%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
+.topbar{height:64px;padding:0 5%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);background:var(--white)}
 .brand{font-family:"Barlow Condensed",sans-serif;font-size:30px;font-weight:900;letter-spacing:2px}
-.brand span{background:var(--lime);padding:3px 6px}
+.brand span{background:var(--lime);padding:3px 6px;transition:var(--transition)}
+.brand:hover span{background:var(--ink);color:var(--lime)}
 .topnote{font-size:10px;letter-spacing:2px;text-transform:uppercase}
 
 .hero{padding:60px 5% 38px}
@@ -41,42 +43,54 @@ button,input,select{font:inherit}
 .marquee{background:var(--lime);padding:12px 5%;font-family:"Barlow Condensed";font-weight:800;letter-spacing:2px;font-size:14px;overflow:hidden;white-space:nowrap}
 
 main{padding:36px 5% 80px}
-.toolbar{display:grid;grid-template-columns:1fr 180px 180px;gap:10px;margin-bottom:28px}
-input,select{background:transparent;border:1px solid var(--line);border-radius:0;padding:13px;color:var(--ink);min-width:0;outline:none}
-input:focus,select:focus{border-color:var(--ink)}
+.toolbar{display:grid;grid-template-columns:1fr 180px 180px;gap:12px;margin-bottom:28px}
+input,select{background:var(--white);border:1px solid var(--line);border-radius:4px;padding:14px;color:var(--ink);min-width:0;outline:none;transition:var(--transition)}
+input:focus,select:focus{border-color:var(--ink);box-shadow:0 0 0 2px rgba(213,250,86,0.4)}
 
 .sectionhead{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:20px}
 .sectionhead h2{font-family:"Barlow Condensed";font-size:36px;text-transform:uppercase;margin:0}
-#count{font-size:11px;color:var(--muted)}
+#count{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:1px}
 
 .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px 16px}
-.card{min-width:0;cursor:pointer;background:var(--white);border:1px solid var(--line);padding:12px;display:flex;flex-direction:column;justify-content:space-between;transition:transform .2s}
-.card:hover{transform:translateY(-3px)}
-.picture{height:230px;background:#d7d8d0;position:relative;overflow:hidden}
-.picture img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
-.card:hover .picture img{transform:scale(1.045)}
-.number{position:absolute;top:12px;left:12px;background:var(--lime);padding:6px 8px;font-size:10px;font-weight:700}
-.tag{position:absolute;right:12px;bottom:12px;background:var(--ink);color:white;padding:7px 9px;font-size:9px;letter-spacing:1px;text-transform:uppercase}
-.cardtext{padding:14px 0 0;border-top:1px solid var(--ink);margin-top:8px}
+.card{min-width:0;cursor:pointer;background:var(--white);border:1px solid var(--line);padding:14px;display:flex;flex-direction:column;justify-content:space-between;transition:var(--transition);border-radius:6px}
+.card:hover{transform:translateY(-6px);box-shadow:0 12px 24px rgba(23,25,20,0.08);border-color:var(--ink)}
+.picture{height:230px;background:#d7d8d0;position:relative;overflow:hidden;border-radius:4px}
+.picture img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(0.25, 1, 0.5, 1)}
+.card:hover .picture img{transform:scale(1.06)}
+.number{position:absolute;top:12px;left:12px;background:var(--lime);padding:6px 9px;font-size:10px;font-weight:700;border-radius:2px}
+.tag{position:absolute;right:12px;bottom:12px;background:var(--ink);color:white;padding:7px 10px;font-size:9px;letter-spacing:1px;text-transform:uppercase;border-radius:2px}
+.cardtext{padding:14px 0 0;border-top:1px solid var(--line);margin-top:10px}
 .cardtitle{display:flex;align-items:start;justify-content:space-between;gap:10px}
 .card h3{font-family:"Barlow Condensed";font-size:25px;text-transform:uppercase;margin:0;line-height:1.1}
-.arrow{font-size:20px;transition:transform .2s}
-.card:hover .arrow{transform:translate(3px,-3px)}
+.arrow{font-size:20px;transition:transform .3s ease}
+.card:hover .arrow{transform:translate(4px,-4px)}
 .sub{font-size:10px;color:var(--muted);margin-top:9px;letter-spacing:1px;text-transform:uppercase}
 
 #status{padding:20px 0;color:var(--muted);font-size:13px}
 
-#modal{display:none;position:fixed;inset:0;background:rgba(23,25,20,0.9);z-index:5;overflow:auto;padding:5vh 16px}
-.dialog{background:var(--paper);max-width:900px;margin:auto;padding:25px;border:1px solid var(--line)}
+/* Soft Sliding Modal */
+#modal{display:none;position:fixed;inset:0;background:rgba(23,25,20,0.85);backdrop-filter:blur(5px);z-index:5;overflow:auto;padding:5vh 16px;animation:fadeIn 0.3s ease}
+.dialog{background:var(--paper);max-width:900px;margin:auto;padding:30px;border:1px solid var(--line);border-radius:8px;transform:translateY(20px);animation:slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards}
 .dialogtop{display:flex;justify-content:space-between;align-items:center}
-.close{border:0;background:var(--lime);padding:10px 15px;cursor:pointer;font-weight:700}
-.dialog h2{font:800 clamp(38px,7vw,76px)/.95 "Barlow Condensed";text-transform:uppercase;margin:28px 0}
-#detailimg{width:100%;max-height:470px;object-fit:contain;background:#d7d8d0;display:block}
+.close{border:0;background:var(--lime);padding:11px 18px;cursor:pointer;font-weight:700;border-radius:4px;transition:var(--transition)}
+.close:hover{background:var(--ink);color:var(--lime)}
+.dialog h2{font:800 clamp(34px,6vw,64px)/.95 "Barlow Condensed";text-transform:uppercase;margin:24px 0}
+#detailimg{width:100%;max-height:450px;object-fit:cover;background:#d7d8d0;display:block;border-radius:6px}
 .detailmeta{display:flex;gap:30px;flex-wrap:wrap;padding:22px 0;border-bottom:1px solid var(--line)}
 .detailmeta span{font-size:12px;color:var(--muted)}
-.detailmeta b{display:block;color:var(--ink);margin-top:6px}
+.detailmeta b{display:block;color:var(--ink);margin-top:6px;font-size:15px}
 
-footer{padding:25px 5%;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;font-size:10px;letter-spacing:1px;text-transform:uppercase}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+/* Creator Section Footer Styling */
+.creator-footer{background:var(--white);border-top:1px solid var(--line);padding:50px 5% 30px}
+.creator-container{max-width:900px;margin:0 auto;text-align:center;margin-bottom:40px}
+.creator-badge{display:inline-block;background:var(--lime);padding:6px 14px;font-family:"Barlow Condensed";font-weight:800;font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:15px;border-radius:2px}
+.creator-container h3{font-family:"Barlow Condensed";font-size:32px;text-transform:uppercase;margin:0 0 12px}
+.creator-container p{font-size:15px;color:#444;line-height:1.7;max-width:700px;margin:0 auto}
+
+.main-footer{padding:25px 5%;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;font-size:10px;letter-spacing:1px;text-transform:uppercase}
 
 @media(max-width:800px){
  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -148,7 +162,18 @@ footer{padding:25px 5%;border-top:1px solid var(--line);display:flex;justify-con
  </div>
 </div>
 
-<footer><span>ATLAS © 2026</span><span>Built for the curious.</span></footer>
+<section class="creator-footer">
+ <div class="creator-container">
+  <div class="creator-badge">Lead Developer & Curator</div>
+  <h3>Prince Ray</h3>
+  <p>Class 9 · International Academy of Scholars</p>
+  <p style="margin-top:10px; font-size:13px; color:var(--muted);">Built with passion for engineering, design, and interactive web architecture.</p>
+ </div>
+</section>
+
+<main class="main-footer" style="padding:25px 5%;">
+ <span>ATLAS © 2026</span><span>Built for the curious.</span>
+</main>
 
 <script>
 "use strict";
