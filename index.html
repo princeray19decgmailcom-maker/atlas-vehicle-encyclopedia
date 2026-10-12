@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ATLAS — The Machine Archive</title>
 <meta name="theme-color" content="#eae9e4">
 <style>
@@ -14,77 +13,71 @@
  --line:#c7c8bd;--lime:#d5fa56;--white:#fffef8;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);
- font-family:"DM Sans",Arial,sans-serif}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"DM Sans",Arial,sans-serif}
 a{color:inherit}
 button,input,select{font:inherit}
-.topbar{height:64px;padding:0 5%;display:flex;align-items:center;
- justify-content:space-between;border-bottom:1px solid var(--line)}
-.brand{font-family:"Barlow Condensed",sans-serif;font-size:30px;
- font-weight:900;letter-spacing:2px}
+
+.topbar{height:64px;padding:0 5%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
+.brand{font-family:"Barlow Condensed",sans-serif;font-size:30px;font-weight:900;letter-spacing:2px}
 .brand span{background:var(--lime);padding:3px 6px}
 .topnote{font-size:10px;letter-spacing:2px;text-transform:uppercase}
+
 .hero{padding:60px 5% 38px}
-.eyebrow{font-size:10px;letter-spacing:3px;font-weight:700;
- text-transform:uppercase;color:var(--muted)}
-.hero h1{font-family:"Barlow Condensed",Impact,sans-serif;
- text-transform:uppercase;font-size:clamp(66px,13vw,170px);
- letter-spacing:-4px;line-height:.78;margin:24px 0 30px;font-weight:900}
+.eyebrow{font-size:10px;letter-spacing:3px;font-weight:700;text-transform:uppercase;color:var(--muted)}
+.hero h1{font-family:"Barlow Condensed",Impact,sans-serif;text-transform:uppercase;font-size:clamp(66px,13vw,170px);letter-spacing:-4px;line-height:.78;margin:24px 0 30px;font-weight:900}
 .hero h1 span{color:#85887b}
-.herofoot{display:flex;justify-content:space-between;align-items:end;
- gap:20px;border-bottom:1px solid var(--ink);padding-bottom:22px}
+.herofoot{display:flex;justify-content:space-between;align-items:end;gap:20px;border-bottom:1px solid var(--ink);padding-bottom:22px}
 .herofoot p{max-width:400px;font-size:13px;line-height:1.8;color:#55594f}
 .stamp{font-family:"Barlow Condensed";font-size:42px;font-weight:800}
 .stamp small{display:block;font:10px "DM Sans";letter-spacing:2px}
-.marquee{background:var(--lime);padding:12px 5%;
- font-family:"Barlow Condensed";font-weight:800;letter-spacing:2px;
- font-size:14px;overflow:hidden}
+
+.intro-section{padding:40px 5%;background:var(--white);border-bottom:1px solid var(--line)}
+.intro-container{max-width:900px}
+.intro-container h2{font-family:"Barlow Condensed";font-size:28px;text-transform:uppercase;margin:0 0 16px;letter-spacing:1px}
+.intro-container blockquote{margin:0;font-size:15px;line-height:1.8;color:#333;border-left:4px solid var(--lime);padding-left:20px}
+.intro-container blockquote p{margin:0 0 12px}
+.intro-container blockquote p:last-child{margin-bottom:0;font-weight:600;color:var(--ink)}
+
+.marquee{background:var(--lime);padding:12px 5%;font-family:"Barlow Condensed";font-weight:800;letter-spacing:2px;font-size:14px;overflow:hidden;white-space:nowrap}
+
 main{padding:36px 5% 80px}
-.toolbar{display:grid;grid-template-columns:1fr 180px 180px;gap:10px;
- margin-bottom:28px}
-input,select{background:transparent;border:1px solid var(--line);
- border-radius:0;padding:13px;color:var(--ink);min-width:0;outline:none}
+.toolbar{display:grid;grid-template-columns:1fr 180px 180px;gap:10px;margin-bottom:28px}
+input,select{background:transparent;border:1px solid var(--line);border-radius:0;padding:13px;color:var(--ink);min-width:0;outline:none}
 input:focus,select:focus{border-color:var(--ink)}
-.sectionhead{display:flex;justify-content:space-between;align-items:center;
- gap:15px;margin-bottom:20px}
-.sectionhead h2{font-family:"Barlow Condensed";font-size:36px;
- text-transform:uppercase;margin:0}
+
+.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:20px}
+.sectionhead h2{font-family:"Barlow Condensed";font-size:36px;text-transform:uppercase;margin:0}
 #count{font-size:11px;color:var(--muted)}
+
 .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px 16px}
-.card{min-width:0;cursor:pointer}
+.card{min-width:0;cursor:pointer;background:var(--white);border:1px solid var(--line);padding:12px;display:flex;flex-direction:column;justify-content:space-between;transition:transform .2s}
+.card:hover{transform:translateY(-3px)}
 .picture{height:230px;background:#d7d8d0;position:relative;overflow:hidden}
-.picture img{width:100%;height:100%;object-fit:cover;display:block;
- transition:transform .5s}
+.picture img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
 .card:hover .picture img{transform:scale(1.045)}
-.number{position:absolute;top:12px;left:12px;background:var(--lime);
- padding:6px 8px;font-size:10px;font-weight:700}
-.tag{position:absolute;right:12px;bottom:12px;background:#171914;
- color:white;padding:7px 9px;font-size:9px;letter-spacing:1px;
- text-transform:uppercase}
+.number{position:absolute;top:12px;left:12px;background:var(--lime);padding:6px 8px;font-size:10px;font-weight:700}
+.tag{position:absolute;right:12px;bottom:12px;background:var(--ink);color:white;padding:7px 9px;font-size:9px;letter-spacing:1px;text-transform:uppercase}
 .cardtext{padding:14px 0 0;border-top:1px solid var(--ink);margin-top:8px}
 .cardtitle{display:flex;align-items:start;justify-content:space-between;gap:10px}
-.card h3{font-family:"Barlow Condensed";font-size:25px;
- text-transform:uppercase;margin:0;line-height:1.1}
+.card h3{font-family:"Barlow Condensed";font-size:25px;text-transform:uppercase;margin:0;line-height:1.1}
 .arrow{font-size:20px;transition:transform .2s}
 .card:hover .arrow{transform:translate(3px,-3px)}
-.sub{font-size:10px;color:var(--muted);margin-top:9px;
- letter-spacing:1px;text-transform:uppercase}
-#status{padding:45px 0;color:var(--muted);font-size:13px}
-#modal{display:none;position:fixed;inset:0;background:#171914eF;
- z-index:5;overflow:auto;padding:5vh 16px}
-.dialog{background:var(--paper);max-width:900px;margin:auto;padding:25px}
+.sub{font-size:10px;color:var(--muted);margin-top:9px;letter-spacing:1px;text-transform:uppercase}
+
+#status{padding:20px 0;color:var(--muted);font-size:13px}
+
+#modal{display:none;position:fixed;inset:0;background:rgba(23,25,20,0.9);z-index:5;overflow:auto;padding:5vh 16px}
+.dialog{background:var(--paper);max-width:900px;margin:auto;padding:25px;border:1px solid var(--line)}
 .dialogtop{display:flex;justify-content:space-between;align-items:center}
-.close{border:0;background:var(--lime);padding:10px 15px;cursor:pointer}
-.dialog h2{font:800 clamp(38px,7vw,76px)/.95 "Barlow Condensed";
- text-transform:uppercase;margin:28px 0}
-#detailimg{width:100%;max-height:470px;object-fit:contain;background:#d7d8d0}
-.detailmeta{display:flex;gap:30px;flex-wrap:wrap;padding:22px 0;
- border-bottom:1px solid var(--line)}
+.close{border:0;background:var(--lime);padding:10px 15px;cursor:pointer;font-weight:700}
+.dialog h2{font:800 clamp(38px,7vw,76px)/.95 "Barlow Condensed";text-transform:uppercase;margin:28px 0}
+#detailimg{width:100%;max-height:470px;object-fit:contain;background:#d7d8d0;display:block}
+.detailmeta{display:flex;gap:30px;flex-wrap:wrap;padding:22px 0;border-bottom:1px solid var(--line)}
 .detailmeta span{font-size:12px;color:var(--muted)}
 .detailmeta b{display:block;color:var(--ink);margin-top:6px}
-footer{padding:25px 5%;border-top:1px solid var(--line);
- display:flex;justify-content:space-between;gap:20px;font-size:10px;
- letter-spacing:1px;text-transform:uppercase}
+
+footer{padding:25px 5%;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;font-size:10px;letter-spacing:1px;text-transform:uppercase}
+
 @media(max-width:800px){
  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
  .toolbar{grid-template-columns:1fr 1fr}
@@ -92,14 +85,15 @@ footer{padding:25px 5%;border-top:1px solid var(--line);
  .picture{height:200px}.hero h1{letter-spacing:-2px}
 }
 @media(max-width:480px){
- .grid{grid-template-columns:1fr 1fr;gap:20px 10px}
- .picture{height:150px}.card h3{font-size:21px}
+ .grid{grid-template-columns:1fr;gap:20px}
+ .picture{height:180px}.card h3{font-size:21px}
  .topnote{font-size:8px}.hero{padding-top:45px}
  .herofoot{align-items:start;flex-direction:column}
 }
 </style>
 </head>
 <body>
+
 <header class="topbar">
  <div class="brand">ATLAS<span>.</span></div>
  <div class="topnote">Independent Machine Archive / Vol. 001</div>
@@ -114,7 +108,18 @@ footer{padding:25px 5%;border-top:1px solid var(--line);
  </div>
 </section>
 
-<div class="marquee">AVIATION ✳ AUTOMOTIVE ✳ MARITIME ✳ RAIL ✳ ENGINEERING ✳ SPACE ✳</div>
+<section class="intro-section">
+ <div class="intro-container">
+  <h2>Welcome to ATLAS — The Machine Archive</h2>
+  <blockquote>
+   <p>“ATLAS is a global encyclopedia celebrating human engineering and innovation. Explore remarkable machines from around the world, including aircraft, fighter jets, passenger planes, warships, submarines, supercars, trains, construction machinery, spacecraft, satellites, robots and military vehicles.</p>
+   <p>Discover their origins, understand their engineering, and learn how these machines help shape our world. From historic inventions to modern technological achievements, ATLAS brings the world of machines together in one archive.</p>
+   <p>Explore the machines. Discover the engineering. Understand the world.”</p>
+  </blockquote>
+ </div>
+</section>
+
+<div class="marquee">AVIATION ✳ AUTOMOTIVE ✳ MARITIME ✳ RAIL ✳ ENGINEERING ✳ SPACE ✳ ROBOTICS ✳ MILITARY VEHICLES ✳</div>
 
 <main>
  <div class="toolbar">
@@ -126,7 +131,7 @@ footer{padding:25px 5%;border-top:1px solid var(--line);
   <h2>Selected machines</h2><div id="count">Loading archive...</div>
  </div>
  <div class="grid" id="grid"></div>
- <div id="status">Searching for photographs. Machines without a usable photo will be excluded.</div>
+ <div id="status"></div>
 </main>
 
 <div id="modal" role="dialog" aria-modal="true">
@@ -148,7 +153,7 @@ footer{padding:25px 5%;border-top:1px solid var(--line);
 <script>
 "use strict";
 
-const data=[
+const data = [
 ["Airbus A380","Aircraft","Europe"],
 ["Boeing 747","Aircraft","United States"],
 ["Boeing 787 Dreamliner","Aircraft","United States"],
@@ -291,87 +296,179 @@ const data=[
 ["INS Chennai","Military Vehicles","India"]
 ];
 
-const $=id=>document.getElementById(id);
-const grid=$("grid"),search=$("search"),category=$("category"),country=$("country");
-const imageCache=new Map();
-let visible=[];
+const grid = document.getElementById("grid");
+const search = document.getElementById("search");
+const category = document.getElementById("category");
+const country = document.getElementById("country");
+const countEl = document.getElementById("count");
+const statusEl = document.getElementById("status");
 
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
-function norm(s){return s.toLowerCase().replace(/\.[^.]+$/,"").replace(/[^a-z0-9]+/g," ").trim();}
-function photoFor(item){
- if(imageCache.has(item[0]))return imageCache.get(item[0]);
- const promise=(async()=>{
-  try{
-   const q=encodeURIComponent(item[0]);
-   const url=`https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${q}&gsrnamespace=6&gsrlimit=12&prop=imageinfo&iiprop=url&iiurlwidth=900&format=json&origin=*`;
-   const r=await fetch(url);
-   if(!r.ok)throw Error("Network error");
-   const j=await r.json();
-   const words=norm(item[0]).split(" ").filter(w=>w.length>2);
-   const candidates=Object.values(j.query?.pages||{}).map(p=>{
-    const title=norm(p.title||"");
-    const matches=words.filter(w=>title.includes(w)).length;
-    return {url:p.imageinfo?.[0]?.thumburl||p.imageinfo?.[0]?.url,matches,title};
-   }).filter(x=>x.url&&x.matches>=Math.min(2,words.length));
-   candidates.sort((a,b)=>b.matches-a.matches);
-   return candidates[0]?.url||null;
-  }catch(e){return null;}
+const imageCache = new Map();
+const activeRequests = new Map();
+
+function esc(s) {
+ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function fallbackSVG(name, category) {
+ const label = String(name).replace(/[<>&"]/g, "").slice(0, 34);
+ const catLabel = String(category).replace(/[<>&"]/g, "").toUpperCase();
+ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="600" height="330" viewBox="0 0 600 330">
+ <rect width="600" height="330" fill="#1b2b43"/>
+ <path d="M40 245H560" stroke="#3c587c" stroke-width="3"/>
+ <g fill="#5dd7ff" opacity=".85">
+ <path d="M125 178h350l-48 34H173z"/>
+ <circle cx="205" cy="226" r="20"/><circle cx="395" cy="226" r="20"/>
+ </g>
+ <text x="300" y="65" fill="#eaf4ff" font-size="23" font-family="Arial,sans-serif" text-anchor="middle">${catLabel}</text>
+ <text x="300" y="290" fill="#eaf4ff" font-size="19" font-family="Arial,sans-serif" text-anchor="middle">${label}</text>
+ </svg>`;
+ return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+}
+
+function photoFor(item) {
+ const machineName = item[0];
+ if (imageCache.has(machineName)) return Promise.resolve(imageCache.get(machineName));
+ if (activeRequests.has(machineName)) return activeRequests.get(machineName);
+
+ const promise = (async () => {
+  try {
+   const q = encodeURIComponent(machineName);
+   const url = `https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${q}&gsrnamespace=6&gsrlimit=10&prop=imageinfo&iiprop=url&iiurlwidth=600&format=json&origin=*`;
+   
+   const controller = new AbortController();
+   const timeoutId = setTimeout(() => controller.abort(), 6000);
+   
+   const r = await fetch(url, { signal: controller.signal });
+   clearTimeout(timeoutId);
+
+   if (!r.ok) throw new Error("Network error");
+   const j = await r.json();
+   const pages = Object.values(j.query?.pages || {});
+   
+   const norm = s => s.toLowerCase().replace(/\.[^.]+$/, "").replace(/[^a-z0-9]+/g, " ").trim();
+   const words = norm(machineName).split(" ").filter(w => w.length > 2);
+
+   const candidates = pages.map(p => {
+    const title = norm(p.title || "");
+    const score = words.reduce((n, w) => n + (title.includes(w) ? 1 : 0), 0);
+    const imgUrl = p.imageinfo?.[0]?.thumburl || p.imageinfo?.[0]?.url;
+    return { score, url: imgUrl };
+   }).filter(p => p.url && p.score >= Math.max(1, Math.ceil(words.length * 0.4)));
+
+   candidates.sort((a, b) => b.score - a.score);
+   const finalUrl = candidates[0]?.url || fallbackSVG(item[0], item[1]);
+   imageCache.set(machineName, finalUrl);
+   activeRequests.delete(machineName);
+   return finalUrl;
+  } catch (e) {
+   const fallback = fallbackSVG(item[0], item[1]);
+   imageCache.set(machineName, fallback);
+   activeRequests.delete(machineName);
+   return fallback;
+  }
  })();
- imageCache.set(item[0],promise);
+
+ activeRequests.set(machineName, promise);
  return promise;
 }
-function setupFilters(){
- [...new Set(data.map(x=>x[1]))].sort().forEach(v=>category.add(new Option(v,v)));
- [...new Set(data.map(x=>x[2]))].sort().forEach(v=>country.add(new Option(v,v)));
+
+function setupFilters() {
+ [...new Set(data.map(x => x[1]))].sort().forEach(v => category.add(new Option(v, v)));
+ [...new Set(data.map(x => x[2]))].sort().forEach(v => country.add(new Option(v, v)));
 }
-function render(){
- const q=search.value.toLowerCase().trim();
- const matches=data.filter(x=>
-  (!q||x.join(" ").toLowerCase().includes(q))&&
-  (!category.value||x[1]===category.value)&&
-  (!country.value||x[2]===country.value));
- $("count").textContent=`${matches.length} archive entries · photographs loading`;
- grid.innerHTML="";
- visible=[];
- if(!matches.length){$("status").textContent="No machines match your search.";return;}
- $("status").textContent="Loading verified-name photo candidates. Entries without an image will be hidden.";
- matches.forEach((item,index)=>{
-  const card=document.createElement("article");
-  card.className="card";
-  card.style.display="none";
-  card.innerHTML=`<div class="picture"><img alt="${esc(item[0])}" loading="lazy"><span class="number">${String(index+1).padStart(3,"0")}</span><span class="tag">${esc(item[1])}</span></div><div class="cardtext"><div class="cardtitle"><h3>${esc(item[0])}</h3><span class="arrow">↗</span></div><div class="sub">${esc(item[2])}</div></div>`;
+
+let currentObserver = null;
+
+function render() {
+ const q = search.value.toLowerCase().trim();
+ const catVal = category.value;
+ const countryVal = country.value;
+
+ const matches = data.filter(x =>
+  (!q || x.join(" ").toLowerCase().includes(q)) &&
+  (!catVal || x[1] === catVal) &&
+  (!countryVal || x[2] === countryVal)
+ );
+
+ countEl.textContent = `${matches.length} of ${data.length} machines displayed`;
+ grid.innerHTML = "";
+
+ if (!matches.length) {
+  statusEl.textContent = "No machines match your search criteria.";
+  return;
+ }
+ statusEl.textContent = "";
+
+ if (currentObserver) {
+  currentObserver.disconnect();
+ }
+
+ matches.forEach((item, index) => {
+  const card = document.createElement("article");
+  card.className = "card";
+  card.innerHTML = `
+   <div class="picture">
+    <img alt="${esc(item[0])}" data-src="${fallbackSVG(item[0], item[1])}" src="${fallbackSVG(item[0], item[1])}" loading="lazy">
+    <span class="number">${String(index + 1).padStart(3, "0")}</span>
+    <span class="tag">${esc(item[1])}</span>
+   </div>
+   <div class="cardtext">
+    <div class="cardtitle">
+     <h3>${esc(item[0])}</h3>
+     <span class="arrow">↗</span>
+    </div>
+    <div class="sub">${esc(item[2])}</div>
+   </div>
+  `;
+
+  const img = card.querySelector("img");
+  
+  card.addEventListener("click", () => {
+   document.getElementById("detailname").textContent = item[0];
+   document.getElementById("detailcat").textContent = item[1];
+   document.getElementById("detailcountry").textContent = item[2];
+   const detailImg = document.getElementById("detailimg");
+   detailImg.src = img.src;
+   detailImg.alt = item[0];
+   document.getElementById("modal").style.display = "block";
+  });
+
   grid.appendChild(card);
-  const img=card.querySelector("img");
-  photoFor(item).then(url=>{
-   if(!url){card.remove();return;}
-   img.onload=()=>{
-    card.style.display="";
-    visible.push(item);
-    $("count").textContent=`${grid.children.length} machines displayed`;
-   };
-   img.onerror=()=>card.remove();
-   img.src=url;
-  });
-  card.addEventListener("click",()=>{
-   if(!img.src||!img.complete||!img.naturalWidth)return;
-   $("detailname").textContent=item[0];
-   $("detailcat").textContent=item[1];
-   $("detailcountry").textContent=item[2];
-   $("detailimg").src=img.src;
-   $("detailimg").alt=item[0];
-   $("modal").style.display="block";
-  });
+
+  const observer = new IntersectionObserver((entries, obs) => {
+   entries.forEach(entry => {
+    if (entry.isIntersecting) {
+     obs.unobserve(entry.target);
+     photoFor(item).then(url => {
+      img.src = url;
+     });
+    }
+   });
+  }, { rootMargin: '200px' });
+
+  observer.observe(card);
  });
 }
-$("close").addEventListener("click",()=>$("modal").style.display="none");
-$("modal").addEventListener("click",e=>{if(e.target===$("modal"))$("modal").style.display="none";});
-search.addEventListener("input",render);
-category.addEventListener("change",render);
-country.addEventListener("change",render);
+
+document.getElementById("close").addEventListener("click", () => {
+ document.getElementById("modal").style.display = "none";
+});
+document.getElementById("modal").addEventListener("click", e => {
+ if (e.target.id === "modal") document.getElementById("modal").style.display = "none";
+});
+
+let debounceTimer;
+search.addEventListener("input", () => {
+ clearTimeout(debounceTimer);
+ debounceTimer = setTimeout(render, 250);
+});
+category.addEventListener("change", render);
+country.addEventListener("change", render);
+
 setupFilters();
-$("total").textContent=data.length;
+document.getElementById("total").textContent = data.length;
 render();
 </script>
 </body>
 </html>
-
